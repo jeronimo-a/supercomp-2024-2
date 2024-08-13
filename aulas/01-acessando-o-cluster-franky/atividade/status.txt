@@ -1,0 +1,6 @@
+Acesso SSH ao cluster OK
+VSCode remoto OK
+Repositório git 2024-2 no cluster OK
+Parte 1 OK
+Batches rodando
+Parte 2 OK
