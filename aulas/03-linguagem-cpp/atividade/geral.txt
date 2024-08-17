@@ -1,0 +1,14 @@
+Atividade 03, Supercomputação
+
+Sumário
+*   1 - Hello World
+*   2 - Calculadora simples
+*   3 - Verificação de par ou ímpar
+*   4 - Contagem de letras em uma string
+*   5 - Soma de números em um vetor
+*   6 - Encontrar o maior número em um vetor
+*   7 - Bubble sort
+*   8 - Matriz e soma de elementos diagonais
+*   9 - Manipulação de strings
+*   10 - Sistema de controle de estoque simples
+*   11 - Leitura e escrita em arquivo
