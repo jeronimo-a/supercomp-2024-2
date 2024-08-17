@@ -84,7 +84,7 @@ int main() {
     // cria o arquivo de saída
     std::ofstream filewrite(filename + ".stats");
     if (!filewrite) {
-        std::cerr << "Não foi possível criar o arquivo de saída " << filename + ".stat" << std::endl;
+        std::cerr << "Não foi possível criar o arquivo de saída " << filename << ".stat" << std::endl;
         return 1;
     }
 
@@ -93,6 +93,9 @@ int main() {
     filewrite << "Número total de linhas: " << total_lines << std::endl;
     filewrite << "Número médio de palavras por linha: " << words_per_line_average << std::endl;
     filewrite << "Palavra mais frequente: " << most_frequent_word << std::endl;    
+
+    // imprime o nome do arquivo com as estatísticas
+    std::cout << "Arquivo com as estatísticas: " << filename << ".stat" << std::endl;
 
     return 0;
 }
