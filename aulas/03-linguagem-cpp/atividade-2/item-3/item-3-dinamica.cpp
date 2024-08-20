@@ -18,7 +18,15 @@ int main() {
     // Por exemplo, você pode preencher a matriz com valores e calcular a soma total.
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
-            matriz[i][j] = 2;
+            matriz[i][j] = 1;
+        }
+    }
+
+    // Soma de todos os itens da matriz
+    int soma = 0;
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            soma += matriz[i][j];
         }
     }
 
