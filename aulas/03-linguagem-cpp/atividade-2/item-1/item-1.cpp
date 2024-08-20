@@ -27,11 +27,10 @@ int main() {
     // Chama a função para ler os números do arquivo "entrada.txt" e armazena-os no vetor 'numeros'.
     erro = lerArquivo("entrada.txt", numeros);
     if (erro) { return 1; }
-
+    
     // Chama a função que dobra os valores do vetor 'numeros' usando passagem por referência e armazena o resultado no vetor 'numerosDobrados'.
     erro = dobrarValoresReferencia(numeros, numerosDobrados);
     if (erro) { return 1; }
-
 
     // Chama a função que escreve os números do vetor 'numerosDobrados' no arquivo "saida_referencia.txt".
     erro = escreverArquivo("saida_referencia.txt", numerosDobrados);
@@ -77,5 +76,18 @@ int dobrarValoresPonteiro(const std::vector<int>* numerosOriginais, std::vector<
 }
 
 int escreverArquivo(const std::string& nomeArquivo, const std::vector<int>& numeros) {
+    
+    // cria o arquivo de saída
+    std::ofstream arquivoSaida(nomeArquivo);
+    if (!arquivoSaida) {
+        std::cerr << "escreverArquivo: não foi possível criar o arquivo " << nomeArquivo << std::endl;
+        return 1;
+    }
+
+    // percorre o vetor dos números elemento por elemento
+    for (size_t i = 0; i < numeros.size(); i++) {
+        arquivoSaida << numeros[i] << std::endl;
+    }
+
     return 0;
 }
