@@ -14,6 +14,14 @@ int main() {
         matriz[i] = new int[N];
     }
 
+    // Aqui você pode inicializar e somar os elementos da matriz.
+    // Por exemplo, você pode preencher a matriz com valores e calcular a soma total.
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            matriz[i][j] = 2;
+        }
+    }
+
     // Liberação da memória alocada dinamicamente.
     // Primeiro, libera a memória alocada para cada linha (os arrays de inteiros).
     for (int i = 0; i < N; ++i) {
