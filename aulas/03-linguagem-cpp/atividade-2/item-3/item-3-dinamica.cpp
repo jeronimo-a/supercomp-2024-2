@@ -2,8 +2,11 @@
 #include <chrono>     // Inclui a biblioteca para medição de tempo, usada para medir a performance do código.
 
 int main() {
+
+    // Marca o tempo de início
+    auto start = std::chrono::high_resolution_clock::now();
     
-    int N = 1000;  // Define o tamanho da matriz como N x N, onde N é 1000.
+    int N = 30000;  // Define o tamanho da matriz como N x N, onde N é 1000.
 
     // Alocação dinâmica de memória para uma matriz N x N.
     // Primeiro, aloca um array de ponteiros, onde cada ponteiro irá apontar para uma linha da matriz.
@@ -38,6 +41,12 @@ int main() {
 
     // Finalmente, libera a memória alocada para o array de ponteiros.
     delete[] matriz;
+
+
+    // Marca o tempo de término e calcula o tempo total
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Tempo total de execução da alocação dinâmica: " << duration.count() << std::endl;
 
     return 0;  // Retorna 0, indicando que o programa terminou com sucesso.
 }
