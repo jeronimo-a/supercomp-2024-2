@@ -54,7 +54,7 @@ int lerArquivo(const std::string& nomeArquivo, std::vector<int>& numeros) {
     // abre o arquivo de entrada
     std::ifstream arquivoEntrada(nomeArquivo);
     if (!arquivoEntrada) {
-        std::cerr << "Não foi possível abrir o arquivo " << nomeArquivo << std::endl;
+        std::cerr << "lerArquivo: não foi possível abrir o arquivo " << nomeArquivo << std::endl;
         return 1;
     }
 
