@@ -3,7 +3,6 @@
 
 class Vector {
     public:
-        void set(int index, int valor);
         void inserir(int index, int valor);
         void remover(int index);
 
@@ -17,6 +16,10 @@ class Vector {
 
         int get(int index) const {
             return dados[index];
+        }
+
+        void set(int index, int valor) {
+            dados[index] = valor;
         }
 
         void imprime() const {
@@ -41,6 +44,8 @@ class Vector {
 int main() {
     Vector vec(5);
     vec.inicializa(3);
+    vec.set(4, 10);
+    vec.set(2, 666);
     vec.imprime();
     std::cout << vec.get(2) << std::endl;
 
