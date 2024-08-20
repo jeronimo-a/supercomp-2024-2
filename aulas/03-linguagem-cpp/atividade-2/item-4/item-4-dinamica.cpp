@@ -8,6 +8,10 @@ class Vector {
             dados = new int[capacidade];
         }
 
+        ~Vector() {
+            delete[] dados;
+        }
+
         void inicializa(int valor) {
             for (int i = 0; i < capacidade; i++) {
                 dados[i] = valor;
@@ -15,19 +19,36 @@ class Vector {
         }
 
         int get(int index) const {
+            if (index >= capacidade) {
+                throw std::out_of_range("Índice grande demais");
+            }
             return dados[index];
         }
 
         void set(int index, int valor) {
+            if (index >= capacidade) {
+                throw std::out_of_range("Índice grande demais");
+            }
             dados[index] = valor;
         }
 
         void inserir(int index, int valor) {
             
+            redimensiona(capacidade + 1);
+
+            for (int i = capacidade - 1; i > index; i--) {
+                dados[i] = dados[i - 1];
+            }
+            dados[index] = valor;
         }
 
         void remover(int index) {
             
+            for (int i = index; i < capacidade - 1; i++) {
+                dados[i] = dados[i + 1];
+            }
+
+            redimensiona(capacidade - 1);
         }
 
         void imprime() const {
@@ -78,6 +99,14 @@ class Vector {
         int capacidade;
         void redimensiona(int novaCapacidade) {
             
+            int* novosDados = new int(novaCapacidade);
+            int copiarN = std::min(capacidade, novaCapacidade);
+            for (int i = 0; i < novaCapacidade; i++) {
+                novosDados[i] = dados[i];
+            }
+
+            capacidade = novaCapacidade;
+            dados = novosDados;
         }
 };
 
