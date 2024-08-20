@@ -42,7 +42,6 @@ int main() {
     // Finalmente, libera a memória alocada para o array de ponteiros.
     delete[] matriz;
 
-
     // Marca o tempo de término e calcula o tempo total
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
