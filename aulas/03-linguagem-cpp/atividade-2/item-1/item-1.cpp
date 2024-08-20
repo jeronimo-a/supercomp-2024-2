@@ -78,6 +78,11 @@ int dobrarValoresReferencia(const std::vector<int>& numerosOriginais, std::vecto
 }
 
 int dobrarValoresPonteiro(const std::vector<int>* numerosOriginais, std::vector<int>* numerosDobrados) {
+
+    // percore o vetor original dobrando os números e os adicionando ao vetor novo
+    for (auto it = numerosOriginais->begin(); it != numerosOriginais->end(); it++) {
+        numerosDobrados->push_back(*it * 2);
+    }
     return 0;
 }
 
