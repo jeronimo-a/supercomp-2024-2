@@ -64,6 +64,20 @@ int main() {
 }
 
 int lerArquivo(const std::string& nomeArquivo, std::vector<int>& numeros) {
+
+    // abre o arquivo de entrada
+    std::ifstream arquivoEntrada(nomeArquivo);
+    if (!arquivoEntrada) {
+        std::cerr << "Não foi possível abrir o arquivo " << nomeArquivo << std::endl;
+        return 1;
+    }
+
+    // percorre o arquivo linha por linha extraindo os números
+    std::string linhaAtual;
+    while (std::getline(arquivoEntrada, linhaAtual)) {
+        numeros.push_back(std::stoi(linhaAtual));
+    }
+
     return 0;
 }
 
