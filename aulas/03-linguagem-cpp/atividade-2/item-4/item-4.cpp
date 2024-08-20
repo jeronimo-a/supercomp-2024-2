@@ -3,7 +3,6 @@
 
 class Vector {
     public:
-        void inserir(int index, int valor);
         void remover(int index);
 
         Vector(int tamanho) {
@@ -19,6 +18,14 @@ class Vector {
         }
 
         void set(int index, int valor) {
+            dados[index] = valor;
+        }
+
+        void inserir(int index, int valor) {
+            redimensiona(capacidade + 1);
+            for (int i = capacidade - 1; i > index; i--) {
+                dados[i] = dados[i - 1];
+            }
             dados[index] = valor;
         }
 
@@ -46,6 +53,8 @@ int main() {
     vec.inicializa(3);
     vec.set(4, 10);
     vec.set(2, 666);
+    vec.imprime();
+    vec.inserir(3, 7878);
     vec.imprime();
     std::cout << vec.get(2) << std::endl;
 
