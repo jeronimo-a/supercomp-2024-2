@@ -2,21 +2,32 @@
 #include <vector>
 
 class Vector {
-public:
-    Vector(int tamanho);
-    ~Vector();
-    void inicializa(int valor);
-    int get(int index) const;
-    void set(int index, int valor);
-    void inserir(int index, int valor);
-    void remover(int index);
-    void imprime() const;
+    public:
+        int get(int index) const;
+        void set(int index, int valor);
+        void inserir(int index, int valor);
+        void remover(int index);
 
-private:
-    int* dados;
-    int tam;
-    int capacidade;
-    void redimensiona(int novaCapacidade);
+        Vector(int tamanho) {
+            capacidade = tamanho;
+        }
+
+        void inicializa(int valor) {
+            dados = std::vector<int>(capacidade, valor);
+        }
+
+        void imprime() const {
+            for (int valor : dados) {
+                std::cout << valor << " ";
+            }
+            std::cout << std::endl;
+        }
+
+    private:
+        std::vector<int> dados;
+        int tam;
+        int capacidade;
+        void redimensiona(int novaCapacidade);
 };
 
 // Implementação das funções...
