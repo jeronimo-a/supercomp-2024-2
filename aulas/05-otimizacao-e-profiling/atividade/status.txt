@@ -1,0 +1,1 @@
+Dados dos tempos de execução dependendo da otimização do compilador coletados
