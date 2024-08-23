@@ -1,1 +1,4 @@
 Dados dos tempos de execução dependendo da otimização do compilador coletados
+Dados do gprof coletados
+TUDO QUE PRECISA SER FEITO NO CLUSTER FOI FEITO
+
