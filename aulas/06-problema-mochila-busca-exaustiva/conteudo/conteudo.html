@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en" class="js-focus-visible js" data-js-focus-visible=""><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://insper.github.io/supercomp/aulas/06-heuristicas/">
+      
+      
+        <link rel="prev" href="https://liciascl.github.io/supercomp/aulas/04-Profiling/04-Profiling/">
+      
+      
+        <link rel="next" href="https://liciascl.github.io/supercomp/aulas/07-aleatorizacao/">
+      
+      
+      <link rel="icon" href="https://liciascl.github.io/supercomp/assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.26">
+    
+    
+      
+        <title>Aula 06: Problema da Mochila com Busca Exaustiva - SuperComputação - 2024/2</title>
+      
+    
+    
+      <link rel="stylesheet" href="conteudo_files/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="conteudo_files/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+        <link rel="stylesheet" href="conteudo_files/css.css">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="conteudo_files/printing.css">
+    
+      <link rel="stylesheet" href="conteudo_files/extra.css">
+    
+      <link rel="stylesheet" href="conteudo_files/equipe.css">
+    
+      <link rel="stylesheet" href="conteudo_files/ansi-colours.css">
+    
+      <link rel="stylesheet" href="conteudo_files/jupyter-cells.css">
+    
+      <link rel="stylesheet" href="conteudo_files/pandas-dataframe.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax.MathJax_FullWidth {text-align: center; display: table-cell!important; width: 10000em!important}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax_LineBox {display: table!important}
+.MathJax_LineBox span {display: table-cell!important; width: 10000em!important; min-width: 0; max-width: none; padding: 0; border: 0; margin: 0}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?V=2.7.0') format('opentype'); font-weight: bold}
+@font-face {font-family: MathJax_Main; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?V=2.7.0') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Math; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?V=2.7.0') format('opentype'); font-style: italic}
+@font-face {font-family: MathJax_Caligraphic; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?V=2.7.0') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?V=2.7.0') format('woff'), url('https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?V=2.7.0') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="grey" data-md-color-accent="red"><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#aula-06-problema-da-mochila-com-busca-exaustiva" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="https://liciascl.github.io/supercomp/" title="SuperComputação - 2024/2" class="md-header__button md-logo" aria-label="SuperComputação - 2024/2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SuperComputação - 2024/2
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Aula 06: Problema da Mochila com Busca Exaustiva
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">Type to start searching</div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/insper/supercomp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+  </div>
+  <div class="md-source__repository md-source__repository--active">
+    SuperComp
+  <ul class="md-source__facts"><li class="md-source__fact md-source__fact--version">2022/2</li><li class="md-source__fact md-source__fact--stars">4</li><li class="md-source__fact md-source__fact--forks">78</li></ul></div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" style="top: 48px;">
+                <div class="md-sidebar__scrollwrap" style="height: 674px;">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://liciascl.github.io/supercomp/" title="SuperComputação - 2024/2" class="md-nav__button md-logo" aria-label="SuperComputação - 2024/2" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+
+    </a>
+    SuperComputação - 2024/2
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/insper/supercomp" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+  </div>
+  <div class="md-source__repository md-source__repository--active">
+    SuperComp
+  <ul class="md-source__facts"><li class="md-source__fact md-source__fact--version">2022/2</li><li class="md-source__fact md-source__fact--stars">4</li><li class="md-source__fact md-source__fact--forks">78</li></ul></div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="checked">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Aulas
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Aulas
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Entregas e Objetivos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/00-introducao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 0: A importância da linguagem
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/01-introducao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 1: Acessando o Cluster Franky
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/02-slurm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 02: Explorando Comandos SLURM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/03-cpp/aula-4.pdf" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 03 Introdução ao C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/03-cpp/03-cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 04: Usando o poder do C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/04-Profiling/04-Profiling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 05: Otimização e Profiling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Aula 06: Problema da Mochila com Busca Exaustiva
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Aula 06: Problema da Mochila com Busca Exaustiva
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#desafios-do-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafios do Problema:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-e-recursao" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que é Recursão?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursao-no-problema-da-mochila" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recursão no Problema da Mochila
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atividade-06-problema-da-mochila-com-busca-exaustiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      Atividade 06: Problema da Mochila com Busca Exaustiva
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/aulas/07-aleatorizacao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Aula 07: Problema da Mochila com Heurística Aleatória
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Projeto
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Projeto
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/projetos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Projeto da disciplina
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Teoria
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Teoria
+          </label>
+          <ul class="md-nav__list">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Materiais e Guias para estudo
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/contextualizando-hpc/contextualizando-HPC/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contextualizando o HPC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/cluster-Franky/cluster-Franky/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Cluster Franky
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/slurm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SLURM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/comandos-ssh/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Transferência de Arquivos entre sua máquina e o Cluster Franky
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/introducao/conceitos-basicos-hw/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Relembrando conceitos importantes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/conceitos-basicos-C%2B%2B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conceitos básicos de C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/compilar-executar-C%2B%2B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compilar/Executar Códigos C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/loops-e-la%C3%A7os/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Loops e Laços
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/funcoes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Passagem de Parâmetros
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/uso-de-constantes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Const Correctness em HPC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/memoria-dinamica/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Alocação de Memória Dinâmica
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/sobrecarga-de-funcoes-C%2B%2B/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sobrecarga de Funções em C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/classes-e-objetos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Classes e objetos
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/manipulacao-vetores/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Manipulação de Vetores
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/flags-compilacao/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Flags de compilação (-O1, -O2, -O3, -Ofast).
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://liciascl.github.io/supercomp/Teoria/profiling/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Profiling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" style="top: 48px;">
+                <div class="md-sidebar__scrollwrap" style="height: 674px;">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc">
+      
+        <li class="md-nav__item">
+  <a href="#desafios-do-problema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desafios do Problema:
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#o-que-e-recursao" class="md-nav__link">
+    <span class="md-ellipsis">
+      O que é Recursão?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recursao-no-problema-da-mochila" class="md-nav__link">
+    <span class="md-ellipsis">
+      Recursão no Problema da Mochila
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atividade-06-problema-da-mochila-com-busca-exaustiva" class="md-nav__link">
+    <span class="md-ellipsis">
+      Atividade 06: Problema da Mochila com Busca Exaustiva
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="aula-06-problema-da-mochila-com-busca-exaustiva">Aula 06: Problema da Mochila com Busca Exaustiva<a class="headerlink" href="#aula-06-problema-da-mochila-com-busca-exaustiva" title="Permanent link">¶</a></h1>
+<p>O problema da mochila é um dos problemas clássicos da computação e é 
+amplamente estudado em otimização de algoritmos e computação. </p>
+<p>Imagine que você está se preparando para uma viagem e tem uma mochila
+ com capacidade limitada de peso. Você tem vários itens à sua 
+disposição, cada um com um peso específico e um valor associado. Seu 
+objetivo é escolher quais itens colocar na mochila para maximizar o 
+valor total, sem ultrapassar a capacidade máxima de peso que a mochila 
+pode carregar.</p>
+<p>Suponha que você tenha os seguintes itens:</p>
+<p><strong>Item 1:</strong> Peso = 2 kg, Valor = <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.512em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.435em, 1000.47em, 2.43em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-2"><span class="mn" id="MathJax-Span-3" style="font-family: MathJax_Main;">3</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.089em; border-left: 0px solid; width: 0px; height: 0.963em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>3</mn></math></span></span><script type="math/tex" id="MathJax-Element-1">3</script></span></p>
+<p><strong>Item 2:</strong> Peso = 3 kg, Valor = <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;4&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-4" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.512em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.423em, 1000.48em, 2.408em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-5"><span class="mn" id="MathJax-Span-6" style="font-family: MathJax_Main;">4</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.063em; border-left: 0px solid; width: 0px; height: 0.951em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>4</mn></math></span></span><script type="math/tex" id="MathJax-Element-2">4</script></span></p>
+<p><strong>Item 3:</strong> Peso = 4 kg, Valor = <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;5&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-7" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.512em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.434em, 1000.46em, 2.43em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-8"><span class="mn" id="MathJax-Span-9" style="font-family: MathJax_Main;">5</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.089em; border-left: 0px solid; width: 0px; height: 0.964em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>5</mn></math></span></span><script type="math/tex" id="MathJax-Element-3">5</script></span></p>
+<p><strong>Item 4:</strong> Peso = 5 kg, Valor = <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-4-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;8&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-10" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.512em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.434em, 1000.47em, 2.43em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-11"><span class="mn" id="MathJax-Span-12" style="font-family: MathJax_Main;">8</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.089em; border-left: 0px solid; width: 0px; height: 0.964em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>8</mn></math></span></span><script type="math/tex" id="MathJax-Element-4">8</script></span></p>
+<p>E sua mochila pode carregar até <strong>8 kg</strong>. A questão é: quais itens você deve escolher para maximizar o valor total na mochila, sem ultrapassar a capacidade de 8 kg?</p>
+<p>Se você tentar todas as combinações possíveis de itens, verá que 
+algumas opções permitem carregar mais valor do que outras. Por exemplo:</p>
+<p>Se você escolher os itens 1 e 4, o peso total será 7 kg e o valor total será <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-5-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;11&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-13" style="width: 1.283em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.025em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.434em, 1000.95em, 2.408em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-14"><span class="mn" id="MathJax-Span-15" style="font-family: MathJax_Main;">11</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.063em; border-left: 0px solid; width: 0px; height: 0.938em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>11</mn></math></span></span><script type="math/tex" id="MathJax-Element-5">11</script></span>.</p>
+<p>Se escolher os itens 2 e 3, o peso total será 7 kg e o valor total será <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-6-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;9&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-16" style="width: 0.669em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.512em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.434em, 1000.47em, 2.43em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-17"><span class="mn" id="MathJax-Span-18" style="font-family: MathJax_Main;">9</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.089em; border-left: 0px solid; width: 0px; height: 0.964em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>9</mn></math></span></span><script type="math/tex" id="MathJax-Element-6">9</script></span>.</p>
+<p>Neste caso, a melhor combinação seria escolher os itens 1 e 4, que oferecem o maior valor total de <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-7-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;11&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-19" style="width: 1.283em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.025em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.434em, 1000.95em, 2.408em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-20"><span class="mn" id="MathJax-Span-21" style="font-family: MathJax_Main;">11</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.063em; border-left: 0px solid; width: 0px; height: 0.938em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>11</mn></math></span></span><script type="math/tex" id="MathJax-Element-7">11</script></span> sem exceder o peso máximo de 8 kg.</p>
+<h4 id="desafios-do-problema">Desafios do Problema:<a class="headerlink" href="#desafios-do-problema" title="Permanent link">¶</a></h4>
+<p>O problema da mochila torna-se cada vez mais complexo à medida que o 
+número de itens aumenta. Com mais itens, o número de combinações 
+possíveis cresce exponencialmente, tornando a busca pela solução ótima 
+um desafio computacional significativo. Por isso, algoritmos eficientes 
+são necessários para resolver o problema em casos de grande escala.</p>
+<p>A atividade desta aula consiste em implementar heurísticas para a solução do problema da <strong>Mochila binária</strong>. </p>
+<p>Abaixo você encontrará as listas contendo peso e valor dos itens para organizar na mochila.</p>
+<p><a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in1.txt">Entrada 1</a>, <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in2.txt">Entrada 2</a>, <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in3.txt">Entrada 3</a>, <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in4.txt">Entrada 4</a> </p>
+<p>Neste exercício, você implementará uma solução para o problema da 
+mochila usando a técnica de busca exaustiva em C++. O objetivo é 
+maximizar o valor dos objetos dentro da mochila sem exceder sua 
+capacidade. </p>
+<p><strong>Descrição do Problema:</strong><br>
+Dado um conjunto de N objetos, cada um com um peso <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-8-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;w&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-22" style="width: 1.283em; display: inline-block;"><span style="display: inline-block; position: relative; width: 1.025em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.657em, 1001.03em, 2.566em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-23"><span class="msubsup" id="MathJax-Span-24"><span style="display: inline-block; position: relative; width: 1.035em; height: 0px;"><span style="position: absolute; clip: rect(3.399em, 1000.69em, 4.161em, -1000em); top: -3.996em; left: 0em;"><span class="mi" id="MathJax-Span-25" style="font-family: MathJax_Math; font-style: italic;">w</span><span style="display: inline-block; width: 0px; height: 3.996em;"></span></span><span style="position: absolute; top: -3.846em; left: 0.716em;"><span class="mi" id="MathJax-Span-26" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.996em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.255em; border-left: 0px solid; width: 0px; height: 0.858em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>w</mi><mi>i</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-8"> w_i </script></span> e um valor <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-9-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;msub&gt;&lt;mi&gt;v&lt;/mi&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/msub&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-27" style="width: 1.027em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.82em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.657em, 1000.82em, 2.566em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-28"><span class="msubsup" id="MathJax-Span-29"><span style="display: inline-block; position: relative; width: 0.804em; height: 0px;"><span style="position: absolute; clip: rect(3.399em, 1000.47em, 4.161em, -1000em); top: -3.996em; left: 0em;"><span class="mi" id="MathJax-Span-30" style="font-family: MathJax_Math; font-style: italic;">v</span><span style="display: inline-block; width: 0px; height: 3.996em;"></span></span><span style="position: absolute; top: -3.846em; left: 0.485em;"><span class="mi" id="MathJax-Span-31" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">i</span><span style="display: inline-block; width: 0px; height: 3.996em;"></span></span></span></span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.255em; border-left: 0px solid; width: 0px; height: 0.858em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>v</mi><mi>i</mi></msub></math></span></span><script type="math/tex" id="MathJax-Element-9"> v_i </script></span>, selecione uma combinação de objetos que maximize o valor total sem ultrapassar a capacidade W da mochila.</p>
+<ul>
+<li><strong>Entrada:</strong>
+  <div class="highlight"><pre><span></span><code>N W
+w1 v1
+w2 v2
+...
+wN vN
+</code></pre></div></li>
+</ul>
+<p>Onde:
+<strong>N:</strong> Número de objetos</p>
+<p><strong>W:</strong> Capacidade da mochila </p>
+<p><strong>Wi:</strong> Peso do objeto</p>
+<p><strong>Vi:</strong> Valor do objeto.</p>
+<p>Para resolver o problema da mochila usando busca exaustiva, 
+precisamos avaliar todas as combinações possíveis de itens. Uma 
+abordagem comum é usar recursão para explorar todas as possibilidades.</p>
+<h4 id="o-que-e-recursao">O que é Recursão?<a class="headerlink" href="#o-que-e-recursao" title="Permanent link">¶</a></h4>
+<p>Recursão é uma técnica fundamental na programação, onde uma função 
+chama a si mesma para resolver subproblemas menores de uma tarefa maior.
+ A ideia central é dividir um problema complexo em partes menores, que 
+podem ser resolvidas de forma mais simples. Em um algoritmo recursivo, o
+ problema é resolvido ao fazer chamadas sucessivas para a mesma função, 
+mas com parâmetros ajustados que aproximam a solução a cada passo.</p>
+<p><strong>Exemplificando...</strong></p>
+<p>Considere a tarefa de calcular o fatorial de um número <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-10-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-32" style="width: 0.771em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.615em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.658em, 1000.6em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-33"><span class="mi" id="MathJax-Span-34" style="font-family: MathJax_Math; font-style: italic;">n</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 0.678em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi></math></span></span><script type="math/tex" id="MathJax-Element-10"> n </script></span>. O fatorial de <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-11-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-35" style="width: 0.771em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.615em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.658em, 1000.6em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-36"><span class="mi" id="MathJax-Span-37" style="font-family: MathJax_Math; font-style: italic;">n</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 0.678em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi></math></span></span><script type="math/tex" id="MathJax-Element-11"> n </script></span>, representado como <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-12-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mo&gt;!&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-38" style="width: 1.078em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.871em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.384em, 1000.79em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-39"><span class="mi" id="MathJax-Span-40" style="font-family: MathJax_Math; font-style: italic;">n</span><span class="mo" id="MathJax-Span-41" style="font-family: MathJax_Main;">!</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 1.012em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>!</mo></math></span></span><script type="math/tex" id="MathJax-Element-12"> n! </script></span>, é o produto de todos os números inteiros de 1 até <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-13-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-42" style="width: 0.771em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.615em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.658em, 1000.6em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-43"><span class="mi" id="MathJax-Span-44" style="font-family: MathJax_Math; font-style: italic;">n</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 0.678em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi></math></span></span><script type="math/tex" id="MathJax-Element-13"> n </script></span>. Podemos definir isso de forma recursiva:
+- <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-14-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;mo&gt;!&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-45" style="width: 3.23em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.613em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.384em, 1002.54em, 2.43em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-46"><span class="mn" id="MathJax-Span-47" style="font-family: MathJax_Main;">0</span><span class="mo" id="MathJax-Span-48" style="font-family: MathJax_Main;">!</span><span class="mo" id="MathJax-Span-49" style="font-family: MathJax_Main; padding-left: 0.278em;">=</span><span class="mn" id="MathJax-Span-50" style="font-family: MathJax_Main; padding-left: 0.278em;">1</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.089em; border-left: 0px solid; width: 0px; height: 1.025em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mn>0</mn><mo>!</mo><mo>=</mo><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-14"> 0! = 1 </script></span> (caso base)
+- <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-15-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mo&gt;!&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mo&gt;&amp;#x00D7;&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;!&lt;/mo&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-51" style="width: 9.07em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.428em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.35em, 1007.35em, 2.658em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-52"><span class="mi" id="MathJax-Span-53" style="font-family: MathJax_Math; font-style: italic;">n</span><span class="mo" id="MathJax-Span-54" style="font-family: MathJax_Main;">!</span><span class="mo" id="MathJax-Span-55" style="font-family: MathJax_Main; padding-left: 0.278em;">=</span><span class="mi" id="MathJax-Span-56" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.278em;">n</span><span class="mo" id="MathJax-Span-57" style="font-family: MathJax_Main; padding-left: 0.222em;">×</span><span class="mo" id="MathJax-Span-58" style="font-family: MathJax_Main; padding-left: 0.222em;">(</span><span class="mi" id="MathJax-Span-59" style="font-family: MathJax_Math; font-style: italic;">n</span><span class="mo" id="MathJax-Span-60" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mn" id="MathJax-Span-61" style="font-family: MathJax_Main; padding-left: 0.222em;">1</span><span class="mo" id="MathJax-Span-62" style="font-family: MathJax_Main;">)</span><span class="mo" id="MathJax-Span-63" style="font-family: MathJax_Main;">!</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.368em; border-left: 0px solid; width: 0px; height: 1.345em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>!</mo><mo>=</mo><mi>n</mi><mo>×</mo><mo stretchy="false">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo>!</mo></math></span></span><script type="math/tex" id="MathJax-Element-15"> n! = n \times (n-1)! </script></span> (caso recursivo)</p>
+<p>Usando recursão, a função que calcula o fatorial chama a si mesma com o valor <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-16-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;n&lt;/mi&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-64" style="width: 2.82em; display: inline-block;"><span style="display: inline-block; position: relative; width: 2.305em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.434em, 1002.23em, 2.49em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-65"><span class="mi" id="MathJax-Span-66" style="font-family: MathJax_Math; font-style: italic;">n</span><span class="mo" id="MathJax-Span-67" style="font-family: MathJax_Main; padding-left: 0.222em;">−</span><span class="mn" id="MathJax-Span-68" style="font-family: MathJax_Main; padding-left: 0.222em;">1</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.163em; border-left: 0px solid; width: 0px; height: 1.038em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>n</mi><mo>−</mo><mn>1</mn></math></span></span><script type="math/tex" id="MathJax-Element-16"> n-1 </script></span>, até que atinge o caso base.</p>
+<h4 id="recursao-no-problema-da-mochila">Recursão no Problema da Mochila<a class="headerlink" href="#recursao-no-problema-da-mochila" title="Permanent link">¶</a></h4>
+<p>No contexto do problema da mochila, a recursão é utilizada para 
+explorar todas as combinações possíveis de itens que podem ser colocados
+ na mochila. A ideia é considerar, para cada item, duas possibilidades: 
+incluí-lo na mochila ou não incluí-lo. Para cada uma dessas escolhas, o 
+problema é reduzido ao mesmo problema, mas com um item a menos e, no 
+caso de inclusão, com uma capacidade reduzida na mochila.</p>
+<p>A estrutura recursiva para resolver o problema da mochila pode ser descrita da seguinte forma:</p>
+<ol>
+<li>
+<p><strong>Caso Base:</strong> Se não há mais itens a serem considerados ou se a capacidade 
+restante da mochila é zero, o valor total é zero.</p>
+</li>
+<li>
+<p><strong>Caso Recursivo:</strong> Para cada item <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-17-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-69" style="width: 0.464em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.359em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.439em, 1000.32em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-70"><span class="mi" id="MathJax-Span-71" style="font-family: MathJax_Math; font-style: italic;">i</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 0.945em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>i</mi></math></span></span><script type="math/tex" id="MathJax-Element-17"> i </script></span>:</p>
+</li>
+</ol>
+<p>Se incluir o item <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-18-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-72" style="width: 0.464em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.359em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.439em, 1000.32em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-73"><span class="mi" id="MathJax-Span-74" style="font-family: MathJax_Math; font-style: italic;">i</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 0.945em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>i</mi></math></span></span><script type="math/tex" id="MathJax-Element-18"> i </script></span>: resolva o problema para os itens restantes com a capacidade reduzida.</p>
+<p>Se não incluir o item <span class="arithmatex"><span class="MathJax_Preview" style="color: inherit; display: none;"></span><span class="MathJax" id="MathJax-Element-19-Frame" tabindex="0" style="position: relative;" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mi&gt;i&lt;/mi&gt;&lt;/math&gt;" role="presentation"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-75" style="width: 0.464em; display: inline-block;"><span style="display: inline-block; position: relative; width: 0.359em; height: 0px; font-size: 122%;"><span style="position: absolute; clip: rect(1.439em, 1000.32em, 2.419em, -1000em); top: -2.254em; left: 0em;"><span class="mrow" id="MathJax-Span-76"><span class="mi" id="MathJax-Span-77" style="font-family: MathJax_Math; font-style: italic;">i</span></span><span style="display: inline-block; width: 0px; height: 2.254em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.076em; border-left: 0px solid; width: 0px; height: 0.945em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mi>i</mi></math></span></span><script type="math/tex" id="MathJax-Element-19"> i </script></span>: resolva o problema para os itens restantes sem alterar a capacidade.</p>
+<p>Retorne a melhor das duas soluções.</p>
+<h3 id="atividade-06-problema-da-mochila-com-busca-exaustiva">Atividade 06: Problema da Mochila com Busca Exaustiva<a class="headerlink" href="#atividade-06-problema-da-mochila-com-busca-exaustiva" title="Permanent link">¶</a></h3>
+<p><strong>Objetivo:</strong>
+Implemente uma solução para o problema da mochila usando a técnica de 
+busca exaustiva através de recursão em C++. O objetivo é maximizar o 
+valor dos objetos dentro da mochila sem exceder sua capacidade.</p>
+<p>Utilize os arquivos de entrada <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in1.txt">Entrada 1</a>, <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in2.txt">Entrada 2</a>, <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in3.txt">Entrada 3</a> e <a href="https://liciascl.github.io/supercomp/aulas/06-heuristicas/itens/in4.txt">Entrada 4</a>
+ para validar sua implementação. Verifique se o programa consegue 
+determinar a combinação correta para maximizar o valor na mochila para 
+cada arquivo de entrada.</p>
+<p>Compare o tempo de execução para os diferentes arquivos de entrada. 
+Considerando que o algoritmo explora todas as combinações possíveis, 
+discuta suas limitações em termos de tempo de execução e uso de memória.</p>
+<div class="admonition tip">
+<p class="admonition-title">Gabarito</p>
+<p><strong>Entrada 1 -&gt;</strong> Peso ocupado: 10 Kg, Valor alcançado: 266 dinheiros</p>
+<p><strong>Entrada 2 -&gt;</strong> Peso ocupado: 2 Kg, Valor alcançado: 156 dinheiros</p>
+<p><strong>Entrada 3 -&gt;</strong> Peso ocupado: 95 Kg, Valor alcançado: 236 dinheiros</p>
+<p><strong>Entrada 4 -&gt;</strong> Peso ocupado: 10 Kg, Valor alcançado: 55 dinheiros</p>
+</div>
+<p>Submeta no BlackBoard o link do repositório com o código e as análises até as 23h59 de 30/08. </p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="conteudo_files/bundle.ad660dcc.min.js"></script>
+      
+        <script src="conteudo_files/MathJax.js"></script>
+      
+        <script src="conteudo_files/js-yaml.min.js"></script>
+      
+        <script src="conteudo_files/markdown-enhancer.js"></script>
+      
+        <script src="conteudo_files/slides.js"></script>
+      
+    
+  
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: italic; font-size-adjust: none; font-family: MathJax_Math, sans-serif;"></div></div></body></html>
