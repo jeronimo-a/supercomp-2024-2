@@ -30,11 +30,27 @@ int main() {
     // loop que encontra o valor máximo
     for (int i = 0; i < pow(2, quantidade_itens) - 1; i++) {
         incrementa_vetor_binario(mochila);
-        for (int i = 0; i < quantidade_itens; i++) {
-            std::cout << mochila[i] << " ";
+        int valor_atual = 0;
+        int peso_atual = 0;
+        for (int j = 0; j < quantidade_itens; j++) {
+            if (!mochila[j]) { continue; }
+            peso_atual += itens[j][1];
+            if (peso_atual > capacidade_mochila) { break; }
+            valor_atual += itens[j][2];
         }
-        std::cout << std::endl;
+        if (valor_atual > valor_maximo && peso_atual <= capacidade_mochila) {
+            valor_maximo = valor_atual;
+            std::copy(mochila.begin(), mochila.end(), mochila_maxima.begin());
+        }
     }
+
+    std::cout << "Mochila: ";
+    for (int i = 0; i < quantidade_itens; i++) {
+        std::cout << mochila_maxima[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "Valor: " << valor_maximo << std::endl;
 
     return 0;
 }
