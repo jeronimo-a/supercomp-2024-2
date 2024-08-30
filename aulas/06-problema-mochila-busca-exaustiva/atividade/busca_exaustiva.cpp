@@ -23,33 +23,47 @@ int main() {
     // define o vetor que representa a mochila, mochila[i] == 0 => item 1 não está na mochila
     std::vector<int> mochila(quantidade_itens, 0);
 
-    // variável de valor máximo encontrado
+    // variável de valor máximo encontrado e a respectiva mochila
     int valor_maximo = 0;
     std::vector<int> mochila_maxima(quantidade_itens, 0);
 
     // loop que encontra o valor máximo
     for (int i = 0; i < pow(2, quantidade_itens) - 1; i++) {
+
+        // incrementa o vetor da mochila como se fosse um binário
         incrementa_vetor_binario(mochila);
+
+        // define as variáveis do peso e do valor atual
         int valor_atual = 0;
         int peso_atual = 0;
+
+        // loop de incrementação do peso e do valor
         for (int j = 0; j < quantidade_itens; j++) {
+
+            // se o item não tiver na mochila, pula
             if (!mochila[j]) { continue; }
+
+            // incrementa o valor
             peso_atual += itens[j][1];
+
+            // verifica se o item cabe na mochila, caso couber, soma ao valor do peso e continua
             if (peso_atual > capacidade_mochila) { break; }
             valor_atual += itens[j][2];
         }
+
+        // se for o caso, atualiza o valor e os itens da mochila mais valiosa
         if (valor_atual > valor_maximo && peso_atual <= capacidade_mochila) {
             valor_maximo = valor_atual;
             std::copy(mochila.begin(), mochila.end(), mochila_maxima.begin());
         }
     }
 
+    // imprime os resultados
     std::cout << "Mochila: ";
     for (int i = 0; i < quantidade_itens; i++) {
         std::cout << mochila_maxima[i] << " ";
     }
     std::cout << std::endl;
-
     std::cout << "Valor: " << valor_maximo << std::endl;
 
     return 0;
@@ -66,12 +80,14 @@ void incrementa_vetor_binario(std::vector<int> &vetor) {
     std::vector<int> vetor_1(tamanho, 0);
     vetor_1[tamanho - 1] = 1;
 
+    // soma o vetor unitário ao vetor atual
     soma_vetor_binario(vetor_copia, vetor_1, tamanho, 0);
 
     std::copy(vetor_copia.begin(), vetor_copia.end(), vetor.begin());
 }
 
 void soma_vetor_binario(std::vector<int> &vetor_a, std::vector<int> vetor_b, int tamanho, int vaium) {
+    // soma o vetor_b ao vetor_a (ALTERA O VETOR A)
     
     // base
     if (tamanho == 0) { return; }
