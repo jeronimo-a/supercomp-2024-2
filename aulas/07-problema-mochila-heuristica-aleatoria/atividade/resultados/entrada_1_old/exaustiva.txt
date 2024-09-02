@@ -1,0 +1,4 @@
+Tempo de execução: 0.0017508 segundos
+
+Mochila: 0 0 0 1 1 0 1 0 0 0 
+Valor: 266

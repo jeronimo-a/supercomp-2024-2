@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <chrono>
 
 int main() {
 
@@ -24,6 +25,9 @@ int main() {
     }
     std::cout << std::endl;
 
+    // marca o tempo de início
+    auto start = std::chrono::high_resolution_clock::now();
+
     // embaralha o vetor dos itens e define o vetor da mochila
     std::shuffle(itens.begin(), itens.end(), std::default_random_engine{});
     std::vector<int> mochila;
@@ -40,6 +44,11 @@ int main() {
             quantidade_itens_mochila++;
         }
     }
+
+    // marca o tempo de término e imprime o tempo de execução
+    auto end = std::chrono::high_resolution_clock::now();\
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "Tempo de execução: " << duration.count() << " segundos" << std::endl << std::endl;
 
     // imprime os resultados
     std::cout << "Mochila: ";
