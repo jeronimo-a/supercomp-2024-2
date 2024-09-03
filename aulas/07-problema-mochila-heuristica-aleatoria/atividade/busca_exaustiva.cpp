@@ -21,6 +21,9 @@ int main() {
         std::cin >> itens[i][1] >> itens[i][2];
     }
 
+    // imprime a quantidade de itens
+    std::cout << "Quantidade de itens: " << quantidade_itens << std::endl;
+
     // define o vetor que representa a mochila, mochila[i] == 0 => item 1 não está na mochila
     std::vector<int> mochila(quantidade_itens, 0);
 

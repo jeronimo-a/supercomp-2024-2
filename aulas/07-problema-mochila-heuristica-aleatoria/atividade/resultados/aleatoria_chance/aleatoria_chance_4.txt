@@ -1,0 +1,25 @@
+Tempo de execução: 1.518e-06 segundos
+
+Mochila: 0 0 0 1 1 1 0 1 0 0 1 1 1 1 1 1 0 0 1 0 1 1 0 0 0 0 0 0 1 0 
+Valor: 427
+Peso: 557
+Tempo de execução: 1.174e-06 segundos
+
+Mochila: 1 0 0 0 0 0 1 0 0 1 0 1 1 1 1 0 1 1 1 0 0 0 1 0 0 1 1 1 0 0 
+Valor: 392
+Peso: 503
+Tempo de execução: 1.119e-06 segundos
+
+Mochila: 0 0 1 0 0 1 1 0 0 1 1 0 0 1 0 1 0 1 1 1 0 0 1 0 0 1 0 0 0 0 
+Valor: 329
+Peso: 532
+Tempo de execução: 1.25e-06 segundos
+
+Mochila: 0 1 0 1 1 1 1 0 1 1 1 1 0 1 0 1 1 1 1 0 0 0 0 0 1 1 0 1 0 1 
+Valor: 513
+Peso: 599
+Tempo de execução: 9.76e-07 segundos
+
+Mochila: 0 1 0 0 1 0 1 0 1 1 1 0 1 0 0 1 0 0 1 0 0 1 1 0 0 0 0 0 1 1 
+Valor: 378
+Peso: 489

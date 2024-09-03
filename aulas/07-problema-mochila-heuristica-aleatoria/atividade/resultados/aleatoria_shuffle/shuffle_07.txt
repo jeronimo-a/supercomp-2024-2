@@ -1,0 +1,16 @@
+
+ITENS
+ID PESO VALOR
+0 12 12
+1 71 18
+2 32 48
+3 57 24
+4 66 52
+5 41 44
+6 61 66
+
+Tempo de execução: 2.346e-06 segundos
+
+Mochila: 3 0 4 6 5 
+Valor: 198
+Peso: 237

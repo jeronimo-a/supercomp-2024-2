@@ -1,0 +1,5 @@
+Quantidade de itens: 29
+Tempo de execução: 1630.64 segundos
+
+Mochila: 0 0 1 0 0 0 1 0 1 0 0 1 0 1 0 1 0 0 0 1 0 0 0 0 1 0 0 0 0 
+Valor: 407
