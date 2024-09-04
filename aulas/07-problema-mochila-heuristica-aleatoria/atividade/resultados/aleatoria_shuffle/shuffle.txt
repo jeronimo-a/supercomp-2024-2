@@ -1,0 +1,187 @@
+
+ITENS
+ID PESO VALOR
+0 12 12
+1 71 18
+2 32 48
+3 57 24
+4 66 52
+5 41 44
+6 61 66
+7 32 11
+8 9 50
+9 56 60
+10 37 18
+11 38 56
+12 76 27
+13 31 32
+14 73 15
+15 42 50
+16 65 36
+17 73 23
+18 64 44
+19 19 62
+20 74 16
+21 24 20
+22 62 12
+23 46 22
+24 7 43
+25 43 13
+26 55 62
+27 77 32
+28 60 10
+29 28 49
+
+Tempo de execução: 7.27e-07 segundos
+
+Mochila: 0 
+Valor: 12
+Peso: 12
+Tempo de execução: 7.48e-07 segundos
+
+Mochila: 1 0 
+Valor: 30
+Peso: 83
+Tempo de execução: 7.16e-07 segundos
+
+Mochila: 2 0 1 
+Valor: 78
+Peso: 115
+Tempo de execução: 6.66e-07 segundos
+
+Mochila: 2 3 1 0 
+Valor: 102
+Peso: 172
+Tempo de execução: 9.01e-07 segundos
+
+Mochila: 3 0 4 2 1 
+Valor: 154
+Peso: 238
+Tempo de execução: 8.93e-07 segundos
+
+Mochila: 2 3 1 4 0 
+Valor: 154
+Peso: 238
+Tempo de execução: 1.015e-06 segundos
+
+Mochila: 3 0 4 6 5 
+Valor: 198
+Peso: 237
+Tempo de execução: 9.64e-07 segundos
+
+Mochila: 2 7 1 6 5 
+Valor: 187
+Peso: 237
+Tempo de execução: 1.006e-06 segundos
+
+Mochila: 3 0 4 7 5 8 
+Valor: 193
+Peso: 217
+Tempo de execução: 1.028e-06 segundos
+
+Mochila: 2 7 1 6 8 0 
+Valor: 205
+Peso: 217
+Tempo de execução: 1.011e-06 segundos
+
+Mochila: 3 0 4 10 5 8 
+Valor: 200
+Peso: 222
+Tempo de execução: 2.057e-06 segundos
+
+Mochila: 2 7 10 6 11 0 8 
+Valor: 261
+Peso: 221
+Tempo de execução: 1.165e-06 segundos
+
+Mochila: 3 0 11 10 5 8 7 
+Valor: 215
+Peso: 226
+Tempo de execução: 1.172e-06 segundos
+
+Mochila: 12 7 10 6 0 8 
+Valor: 184
+Peso: 227
+Tempo de execução: 1.313e-06 segundos
+
+Mochila: 13 0 11 10 5 9 8 
+Valor: 272
+Peso: 224
+Tempo de execução: 1.268e-06 segundos
+
+Mochila: 12 7 15 6 0 8 
+Valor: 216
+Peso: 232
+Tempo de execução: 1.289e-06 segundos
+
+Mochila: 13 0 11 10 5 9 8 
+Valor: 272
+Peso: 224
+Tempo de execução: 1.399e-06 segundos
+
+Mochila: 12 7 15 6 0 8 
+Valor: 216
+Peso: 232
+Tempo de execução: 1.334e-06 segundos
+
+Mochila: 13 0 11 10 18 9 
+Valor: 222
+Peso: 238
+Tempo de execução: 1.379e-06 segundos
+
+Mochila: 12 7 15 6 0 8 
+Valor: 216
+Peso: 232
+Tempo de execução: 1.401e-06 segundos
+
+Mochila: 13 0 11 10 18 9 
+Valor: 222
+Peso: 238
+Tempo de execução: 1.556e-06 segundos
+
+Mochila: 12 21 15 6 0 19 
+Valor: 237
+Peso: 234
+Tempo de execução: 1.512e-06 segundos
+
+Mochila: 13 0 11 10 18 9 
+Valor: 222
+Peso: 238
+Tempo de execução: 1.569e-06 segundos
+
+Mochila: 12 21 15 6 0 19 
+Valor: 237
+Peso: 234
+Tempo de execução: 1.525e-06 segundos
+
+Mochila: 13 0 11 10 18 9 
+Valor: 222
+Peso: 238
+Tempo de execução: 1.533e-06 segundos
+
+Mochila: 12 21 15 6 0 19 
+Valor: 237
+Peso: 234
+Tempo de execução: 1.567e-06 segundos
+
+Mochila: 13 0 11 10 18 9 
+Valor: 222
+Peso: 238
+Tempo de execução: 1.73e-06 segundos
+
+Mochila: 26 21 15 6 11 0 24 
+Valor: 309
+Peso: 239
+Tempo de execução: 1.73e-06 segundos
+
+Mochila: 27 0 11 10 18 8 
+Valor: 212
+Peso: 237
+Tempo de execução: 1.787e-06 segundos
+
+Mochila: 26 28 15 6 0 24 
+Valor: 243
+Peso: 237
+
+12, 30, 78, 102, 154, 154, 198, 187, 193, 205, 200, 261, 215, 184, 272, 216, 272, 216, 222, 216, 222, 237, 222, 237, 222, 237, 222, 309, 212, 243, 129
+12, 83, 115, 172, 238, 238, 237, 237, 217, 217, 222, 221, 226, 227, 224, 232, 224, 232, 238, 232, 238, 234, 238, 234, 238, 234, 238, 239, 237, 237, 33

@@ -29,6 +29,7 @@ int main() {
 
     // variável de valor máximo encontrado e a respectiva mochila
     int valor_maximo = 0;
+    int peso_mochila_maxima = 0;
     std::vector<int> mochila_maxima(quantidade_itens, 0);
 
     // marca o tempo de início
@@ -61,6 +62,7 @@ int main() {
         // se for o caso, atualiza o valor e os itens da mochila mais valiosa
         if (valor_atual > valor_maximo && peso_atual <= capacidade_mochila) {
             valor_maximo = valor_atual;
+            peso_mochila_maxima = peso_atual;
             std::copy(mochila.begin(), mochila.end(), mochila_maxima.begin());
         }
     }
@@ -77,6 +79,7 @@ int main() {
     }
     std::cout << std::endl;
     std::cout << "Valor: " << valor_maximo << std::endl;
+    std::cout << "Peso: " << peso_mochila_maxima << std::endl;
 
     return 0;
 }

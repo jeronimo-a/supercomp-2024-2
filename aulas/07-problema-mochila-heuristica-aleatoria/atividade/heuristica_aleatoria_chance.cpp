@@ -22,35 +22,54 @@ int main() {
         std::cin >> itens[i][1] >> itens[i][2];
     }
 
-    // marca o tempo de início
-    auto start = std::chrono::high_resolution_clock::now();
+    std::vector<int> valores(quantidade_itens, 0);
+    std::vector<int> pesos(quantidade_itens, 0);
 
-    // percorre cada item, com 50% de chance de incluir cada um, se ele couber
-    int peso_atual = 0;
-    int valor_atual = 0;
-    std::vector<int> mochila(quantidade_itens, 0);
-    for (int i = 0; i < quantidade_itens; i++) {
-        double random = distribution(generator);
-        if (random <= 0.5) { continue; }
-        if (peso_atual + itens[i][1] > capacidade_mochila) { continue; }
-        peso_atual += itens[i][1];
-        valor_atual += itens[i][2];
-        mochila[i] = 1;
+    for (quantidade_itens = 1; quantidade_itens <= 30; quantidade_itens++) {
+
+        // marca o tempo de início
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // percorre cada item, com 50% de chance de incluir cada um, se ele couber
+        int peso_atual = 0;
+        int valor_atual = 0;
+        std::vector<int> mochila(quantidade_itens, 0);
+        for (int i = 0; i < quantidade_itens; i++) {
+            double random = distribution(generator);
+            if (random <= 0.5) { continue; }
+            if (peso_atual + itens[i][1] > capacidade_mochila) { continue; }
+            peso_atual += itens[i][1];
+            valor_atual += itens[i][2];
+            mochila[i] = 1;
+        }
+
+        // marca o tempo de término e imprime o tempo de execução
+        auto end = std::chrono::high_resolution_clock::now();\
+        std::chrono::duration<double> duration = end - start;
+        std::cout << "Tempo de execução: " << duration.count() << " segundos" << std::endl << std::endl;
+
+        // imprime os resultados
+        std::cout << "Mochila: ";
+        for (int i = 0; i < quantidade_itens; i++) {
+            std::cout << mochila[i] << " ";
+        }
+        std::cout << std::endl;
+        std::cout << "Valor: " << valor_atual << std::endl;
+        std::cout << "Peso: " << peso_atual << std::endl;
+
+        valores[quantidade_itens - 1] = valor_atual;
+        pesos[quantidade_itens - 1] = peso_atual;
     }
 
-    // marca o tempo de término e imprime o tempo de execução
-    auto end = std::chrono::high_resolution_clock::now();\
-    std::chrono::duration<double> duration = end - start;
-    std::cout << "Tempo de execução: " << duration.count() << " segundos" << std::endl << std::endl;
-
-    // imprime os resultados
-    std::cout << "Mochila: ";
-    for (int i = 0; i < quantidade_itens; i++) {
-        std::cout << mochila[i] << " ";
+    std::cout << std::endl << valores[0];
+    for (int i = 1; i < quantidade_itens; i++) {
+        std::cout << ", " << valores[i];
     }
-    std::cout << std::endl;
-    std::cout << "Valor: " << valor_atual << std::endl;
-    std::cout << "Peso: " << peso_atual << std::endl;
+    
+    std::cout << std::endl << pesos[0];
+    for (int i = 1; i < quantidade_itens; i++) {
+        std::cout << ", " << pesos[i];
+    }
 
     return 0;
 }
