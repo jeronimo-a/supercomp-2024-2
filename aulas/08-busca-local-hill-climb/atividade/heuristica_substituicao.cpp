@@ -43,42 +43,48 @@ int main() {
     std::cout << "Valor: " << valor << std::endl;
     std::cout << "Peso: " << peso << "/" << capacidade_mochila << std::endl <<std::endl;
 
-    // forçando o preenchimento completo
-    for (int i = 0; i < quantidade_itens; i++) {
-        if (mochila[i]) { continue; }
-        if (itens[i][1] + peso > capacidade_mochila) { continue; }
-        peso += itens[i][1];
-        valor += itens[i][2];
-        mochila[i] = 1;
-    }
-
-    // imprime os resultados
-    std::cout << "Mochila com preenchimento completo forçado: ";
-    for (int i = 0; i < quantidade_itens; i++) {
-        std::cout << mochila[i] << " ";
-    }
-    std::cout << std::endl;
-    std::cout << "Valor: " << valor << std::endl;
-    std::cout << "Peso: " << peso << "/" << capacidade_mochila << std::endl <<std::endl;
-
     // substituição
-    for (int i = 0; i < quantidade_itens; i++) {
-        if (mochila[i]) { continue; }
-        for (int j = 0; j < quantidade_itens; j++) {
-            if (i == j) { continue; }
-            if (!mochila[j]) { continue; }
-            if (itens[j][2] >= itens[i][2]) { continue; }
-            if (peso - itens[j][1] + itens[i][1] <= capacidade_mochila) {
-                std::cout << i << " sub " << j << std::endl;
-                mochila[j] = 0;
-                mochila[i] = 1;
-                peso -= itens[j][1];
-                peso += itens[i][1];
-                valor -= itens[j][2];
-                valor += itens[i][2];
-                break;
+    while (true) {
+        int houve_sub = 0;
+        for (int i = 0; i < quantidade_itens; i++) {
+
+            // forçando o preenchimento completo (2)
+            for (int j = 0; j < quantidade_itens; j++) {
+                if (mochila[j]) { continue; }
+                if (itens[j][1] + peso > capacidade_mochila) { continue; }
+                peso += itens[j][1];
+                valor += itens[j][2];
+                mochila[j] = 1;
+            }
+
+            if (mochila[i]) { continue; }
+            for (int j = 0; j < quantidade_itens; j++) {
+                if (i == j) { continue; }
+                if (!mochila[j]) { continue; }
+                if (itens[j][2] >= itens[i][2]) { continue; }
+                if (peso - itens[j][1] + itens[i][1] <= capacidade_mochila) {
+                    std::cout << i << " sub " << j << std::endl;
+                    mochila[j] = 0;
+                    mochila[i] = 1;
+                    peso -= itens[j][1];
+                    peso += itens[i][1];
+                    valor -= itens[j][2];
+                    valor += itens[i][2];
+                    houve_sub = 1;
+                    break;
+                }
             }
         }
+        if (!houve_sub) { break; }
+    }
+
+    // forçando o preenchimento completo (2)
+    for (int j = 0; j < quantidade_itens; j++) {
+        if (mochila[j]) { continue; }
+        if (itens[j][1] + peso > capacidade_mochila) { continue; }
+        peso += itens[j][1];
+        valor += itens[j][2];
+        mochila[j] = 1;
     }
 
     // imprime os resultados
