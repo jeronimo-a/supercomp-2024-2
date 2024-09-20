@@ -1,5 +1,6 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
+#include <thrust/extrema.h>
 #include <iostream>
 #include <chrono>
 
@@ -40,7 +41,23 @@ int main() {
 
     // EXERCÍCIO 2: cálculo das médias e extremos   --- --- --- --- --- --- --- --- --- --- --- --- --- 2
 
+    // 2.1: cálculo do preço médio da ação nos útlimos 10 anos  --- --- --- --- --- --- --- --- 2.1
+    int average_price = thrust::reduce(dev.end() - 2610, dev.end(), 0.0, thrust::plus<double>());
+    average_price = average_price / 2610.0;
+    std::cout << "Preço médio da ação nos últimos 10 anos: " << average_price << std::endl;
 
+    // 2.2: cálculo do preço médio da ação no último ano    --- --- --- --- --- --- --- --- --- 2.2
+    average_price = thrust::reduce(dev.end() - 261, dev.end(), 0.0, thrust::plus<double>());
+    average_price = average_price / 261.0;
+    std::cout << "Preço médio da ação no último ano: " << average_price << std::endl;
+
+    // 2.3: encontra o valor máximo ao longo de todo o período e do último ano  --- --- --- --- 2.3
+    auto max_all_iter = thrust::max_element(dev.begin(), dev.end());
+    auto max_year_iter = thrust::max_element(dev.end() - 261, dev.end());
+    int max_all = *max_all_iter;
+    int max_year = *max_year_iter;
+    std::cout << "Valor máximo no período completo: " << max_all << std::endl;
+    std::cout << "Valor máximo no último ano: " << max_year << std::endl;
 
     return 0;
 }
