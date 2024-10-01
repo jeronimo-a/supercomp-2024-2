@@ -1,10 +1,10 @@
 import random
 
-AMOUNT  = 100
+AMOUNT  = 24
 
 with open("numeros.txt", "w") as file:
     file.write(str(AMOUNT) + "\n")
-    file.write(str(int(random.uniform(10000, 100000000))) + "\n")
+    file.write("1\n")
     for i in range(AMOUNT):
-        numero = int(random.uniform(1, 10000))
+        numero = int(random.uniform(2, 20))
         file.write(str(numero) + "\n")
