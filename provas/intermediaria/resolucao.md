@@ -62,3 +62,25 @@ Se não estiver carregando, ver `/questao_2/tempos_execucao.png`
 #### 3. "Compare o tempo de execução deste código nas 10 entradas. O comportamento está alinhado com o esperado? Justifique."
 
 Considerando que o espaço de pesquisa do algoritmo exaustivo dobra a cada incremento do tamanho do conjunto de entrada, espera-se que a complexidade dele seja `O(n²)`. A partir do gráfico do item anterior, percebe-se que o comportamento está sim alinhado com o esperado.
+
+### Questão 3
+
+#### "Em sala de aula, nós implementamos diversas estratégias para a mochila binária. Explique a importância de buscar um balanço entre _exploration_ e _exploitation_. Dê um exemplo de como buscamos atingir _exploration_ e outro de como buscamos atingir _exploitation_ no Problema do Subconjunto de Soma. Elabore um pseudocódigo que combine tais estratégias e avalie criticamente sua efetividade."
+
+Uma abordagem baseada em _exploitation_ é quando focamos em criar soluções para problemas com base no conhecimento atual sobre o problema em questão, priorizando a produção de uma solução imediata para o problema. Uma abordagem baseda em _exploration_, por outro lado, é quando tentamos encontrar novas maneiras de solucionar o problema, possivelmente sacrificando um pouco de tempo.
+
+Um exemplo de técnica de _exploitation_ seria a implementação de um algoritmo guloso, que busca melhorar a solução com base em possíveis melhorias locais, de forma similar ao _local hill climb_ que foi abordado em aula. Um exemplo de técnica de _exploration_ seria a implementação de um algortimo genético, que usa aleatoriedade para otimizar a solução a partir de outras soluções.
+
+A busca de um balanço entre as duas abordagens é importante porque é uma maneira de obter uma melhor relação custo benefício na hora de encontrar soluções, sendo o custo o tempo de execução e o benefício a qualidade da solução encontrada.
+
+**Pseudocódigo que usa as duas abordagens**
+
+    ordenar os números de forma decrescente
+    soma = 0
+    percorrer todos os números
+        se o número desta iteração somado à soma atual não ultrapassar a soma desejada
+            inclui o número
+        se um número aleatório entre 0 e 100 for maior que 50
+            remove o número que foi incluso agora da solução
+
+A abordagem acima implementa uma heurística básica, que representa o _exploitation_ da abordagem, mas introduz uma perturbação aleatória, que representa o _exploration_ da abordagem. Isso permite que o algortimo siga um caminho geral mas tenha um pouco de aleatoriedade, que faz com que ele, possivelmente, encontre melhores soluções.
