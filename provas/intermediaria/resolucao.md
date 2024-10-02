@@ -84,3 +84,7 @@ A busca de um balanço entre as duas abordagens é importante porque é uma mane
             remove o número que foi incluso agora da solução
 
 A abordagem acima implementa uma heurística básica, que representa o _exploitation_ da abordagem, mas introduz uma perturbação aleatória, que representa o _exploration_ da abordagem. Isso permite que o algortimo siga um caminho geral mas tenha um pouco de aleatoriedade, que faz com que ele, possivelmente, encontre melhores soluções.
+
+### Questão 4
+
+Resolução em `/questao_4/resolucao.ipynb`
