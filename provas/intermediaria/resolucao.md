@@ -88,3 +88,16 @@ A abordagem acima implementa uma heurística básica, que representa o _exploita
 ### Questão 4
 
 Resolução em `/questao_4/resolucao.ipynb`
+
+### Questão 5
+
+Código fonte com memorização em `/questao_5/programa_otimizado.cpp`
+
+Gráfico da relação entre o tempo de execução e o tamanho da entrada:
+
+![Tempos de execução](questao_5/tempos_execucao.png)
+
+Se não estiver carregando, ver `/questao_5/tempos_execucao.png`
+
+Como evidenciado pelo gráfico, a complexidade da solução vai de exponencial para constante com a implementação da memorização.
+
