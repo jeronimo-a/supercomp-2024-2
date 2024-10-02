@@ -101,3 +101,47 @@ Se não estiver carregando, ver `/questao_5/tempos_execucao.png`
 
 Como evidenciado pelo gráfico, a complexidade da solução vai de exponencial para constante com a implementação da memorização.
 
+### Questão 6
+
+#### 1. "Qual é a importância de aliar estratégias de implementação (Software) com recursos computacionais disponíveis (Hardware) para melhor endereçamento do problema?"
+
+Ambos o _software_ e o _hardware_ envolvidos na resolução de um problema têm grande influência sobre o quão custosa é a resolução, em termos de tempo. A implementação do _software_ pode reduzir a complexidade do problema ao máximo possível e também fazer com que a resolução do problema possa ser executada em paralelo, reduzindo o tempo de execução. O _hardware_, por sua vez, é o que determina quantos fluxos de execução paralelas podem acontecer, assim como a velocidade de cada fluxo de execução. As duas coisas, portanto, quando devidamente conciliadas, podem reduzir o tempo de execução resolução de problemas.
+
+#### 2. "Defina o que é Slurm e sua importância na programação paralela em larga escala."
+
+O _Slurm_ é um _software_ utilizado em ambientes de computação distribuida que é responsável por administrar a execução de tarefas individuais. Os usuários o sistema submetem solicitações de execução ao _Slurm_ e ele aloca os recursos de _hardware_ necessários para cada tarefa, de forma ordenada. Sem o _Slurm_ não haveria organização na execução de diferentes tarefas, dificultando muito ou até mesmo impossibilitando a execução de mais de uma ao mesmo tempo, o que faz com que parte do _hardware_ fique ocioso mesmo quando há demanda.
+
+#### 3. "Considerando o job configurado pelo ".slurm" abaixo, descreva quais recursos computacionais estão sendo solicitados ao Cluster, as limitações e condições de execução."
+
+```
+#!/bin/bash
+#SBATCH --job-name=job_paralelo
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=8
+#SBATCH --time=02:00:00
+#SBATCH --partition=compute
+#SBATCH --output=resultado.out
+#SBATCH --error=erro.err
+
+# Carregar módulos necessários
+module load mpi
+
+# Executar o programa paralelo
+mpirun -np 32 ./meu_programa_paralelo
+```
+
+A linha `#SBATCH --job-name=job_paralelo` define que a tarefa em questão se chama `job_paralelo`, e é assim que ela será chamada dentro do sistema.
+
+A linha `#SBATCH --nodes=4` define que a tarefa necessita de quatro _nodes_ (máquinas) para ser executada.
+
+A linha `#SBATCH --ntasks-per-node=8` define que cada em cada _node_ o programa precisa utilizar quatro _threads_.
+
+A linha `#SBATCH --time=02:00:00` define que a tarefa vai durar no máximo duas horas. Se a tarefa exceder esse limite, ela é interrompida.
+
+A linha `#SBATCH --partition=compute` define que a tarefa deve ser tratada a partir do conjunto de configurações da partição `compute`. Uma partição do _Slurm_ é um grupo ao qual tarefas podem pertencer que vão ser executadas de acordo com os limites e regras daquela partição.
+
+A linha `#SBATCH --output=resultado.out` define que a saída padrão do programa será direcionada a um arquivo chamado `resultado.out`.
+
+A linha `#SBATCH --error=erro.err` define que a saída de erros do programa será direcionada a um arquivo chamado `erro.err`.
+
+As linhas seguintes definem qual é o executável a ser utilizado assim como os módulos necessários. Neste caso, na linha de execução, também é definido quantas _threads_ devem ser utilizadas (32, que serão distribuidas entre 4 máquinas com 8 threads cada).
